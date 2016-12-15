@@ -16,7 +16,7 @@ module.exports.loop = function () {
     var recolectores = _.filter(Game.creeps, (creep) => creep.memory.role == 'recolector'); 
     // Si la cantidad actual es menor a 2, crear un nuevo recolector
     if(recolectores.length < 2) {
-        var nuevo = Game.spawns['Central'].createCreep([WORK,WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'recolector'});
+        var nuevo = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'recolector'});
     }
     
     // Diferenciar creeps por su rol y asignar comportamiento
