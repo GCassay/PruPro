@@ -4,11 +4,11 @@ var rolConstructor = {
 
         if(creep.memory.building && creep.carry.energy == 0) { // Creep en Modo Construcción / Sin energía
             creep.memory.building = false; // Pasar a Modo Recolección para obtener más energía
-            creep.say('harvesting');
+            creep.say('recolectando');
         }
         if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) { // Creep en Modo Recolección / Full energía
             creep.memory.building = true; // Pasar a Modo Construcción para comenzar a construir
-            creep.say('building');
+            creep.say('construyendo');
         }
         if(creep.memory.building) { // Creep en Modo Construcción / Con energía
             var targets = creep.room.find(FIND_CONSTRUCTION_SITES); // Localizar punto de construcción y construir
