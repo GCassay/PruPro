@@ -5,7 +5,7 @@ var rolRecargador = {
 		// Dejar de llevar energía al Controlador cuando alcance el level 2
 		if(creep.room.controller.level < 2){
 
-			if(creep.carry.energy < creep.carryCapacity) { // Si el creep NO lleva carga
+			if(creep.carry.energy == 0) { // Si el creep NO lleva carga
 				var recursos = creep.room.find(FIND_SOURCES);
 				// Se recargará con energía de la fuente si está cerca de ésta
 				if(creep.harvest(recursos[0]) == ERR_NOT_IN_RANGE) {
