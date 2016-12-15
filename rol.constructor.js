@@ -6,7 +6,7 @@ var rolConstructor = {
             creep.memory.building = false; // Pasar a Modo Recolección para obtener más energía
             creep.say('harvesting');
         }
-        if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) { // Creep en Modo Recolección // Full energía
+        if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) { // Creep en Modo Recolección / Full energía
             creep.memory.building = true; // Pasar a Modo Construcción para comenzar a construir
             creep.say('building');
         }
