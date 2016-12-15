@@ -1,19 +1,32 @@
 
+// Cargar módulos
 var rolRecolector = require('rol.recolector');
 var rolRecargador = require('rol.recargador');
 
 module.exports.loop = function () {
-
-    var recolectores = _.filter(Game.creeps, (creep) => creep.memory.role == 'recolector');
-    console.log('Número de Recolectores: ' + harvesters.length);
-
-    for(var name in Game.creeps) {
-        var creep = Game.creeps[name];
-        if(creep.memory.role == 'recolector') {
-            rolRecolector.run(creep);
+   
+   // Limpiar memoria de creeps eliminados o que ya finalizaron su ciclo de vida
+   for(var nombre in Memory.creeps) {
+        if(!Game.creeps[nombre]) {
+            delete Memory.creeps[nombre];
         }
-        if(creep.memory.role == 'recargador') {
-            rolRecargador.run(creep);
+    }
+    
+    // Seleccionar sólo creeps recolectores
+    var recolectores = _.filter(Game.creeps, (creep) => creep.memory.role == 'recolector'); 
+    // Si la cantidad actual es menor a 2, crear un nuevo recolector
+    if(recolectores.length < 2) {
+        var nuevo = Game.spawns['Spawn1'].createCreep([WORK,WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'recolector'});
+    }
+    
+    // Diferenciar creeps por su rol y asignar comportamiento
+    for(var nombre in Game.creeps) {
+        var minion = Game.creeps[nombre];
+        if(minion.memory.role == 'recolector') {
+            rolRecolector.run(minion);
+        }
+        if(minion.memory.role == 'recargador') {
+            rolRecargador.run(minion);
         }
     }
 }
