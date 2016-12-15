@@ -10,9 +10,9 @@ var rolRecolector = {
             }
         }
         // Si el recolector está lleno y el Spawn Centro tiene aún capacidad, dirigirse hasta él y transferirla
-        else if(Game.spawns['Centro'].energy < Game.spawns['Centro'].energyCapacity) {
-            if(creep.transfer(Game.spawns['Centro'], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(Game.spawns['Centro']);
+        else if(Game.spawns['Central'].energy < Game.spawns['Central'].energyCapacity) {
+            if(creep.transfer(Game.spawns['Central'], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(Game.spawns['Central']);
             }
         }
     }
