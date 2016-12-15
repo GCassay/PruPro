@@ -2,6 +2,7 @@
 // Cargar módulos
 var rolRecolector = require('rol.recolector');
 var rolRecargador = require('rol.recargador');
+var rolConstructor = require('rol.constructor');
 
 module.exports.loop = function () {
    
@@ -12,11 +13,23 @@ module.exports.loop = function () {
         }
     }
     
-    // Seleccionar sólo creeps recolectores
+    // Respawn Creeps Recolectores
     var recolectores = _.filter(Game.creeps, (creep) => creep.memory.role == 'recolector'); 
     // Si la cantidad actual es menor a 2, crear un nuevo recolector
-    if(recolectores.length < 2) {
-        var nuevo = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,CARRY], undefined, {role: 'recolector'});
+    if(recolectores.length < 1) {
+        var nuevo = Game.spawns['Central'].createCreep([WORK,CARRY], undefined, {role: 'recolector'});
+    }
+    // Respawn Creeps Recargadores
+    var recargadores = _.filter(Game.creeps, (creep) => creep.memory.role == 'recargador'); 
+    // Si la cantidad actual es menor a 2, crear un nuevo recargador
+    if(recolectores.length < 1) {
+        var nuevo = Game.spawns['Central'].createCreep([WORK,CARRY], undefined, {role: 'recargador'});
+    }
+    // Respawn Creeps Constructores
+    var constructores = _.filter(Game.creeps, (creep) => creep.memory.role == 'constructor'); 
+    // Si la cantidad actual es menor a 2, crear un nuevo constructor
+    if(constructores.length < 1) {
+        var nuevo = Game.spawns['Central'].createCreep([WORK,CARRY], undefined, {role: 'constructor'});
     }
     
     // Diferenciar creeps por su rol y asignar comportamiento
@@ -27,6 +40,9 @@ module.exports.loop = function () {
         }
         if(minion.memory.role == 'recargador') {
             rolRecargador.run(minion);
+        }       
+        if(minion.memory.role == 'constructor') {
+            rolConstructor.run(minion);
         }
     }
 }
