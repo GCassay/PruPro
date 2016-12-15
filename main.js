@@ -1,4 +1,3 @@
-
 // Cargar módulos
 var rolRecolector = require('rol.recolector');
 var rolRecargador = require('rol.recargador');
