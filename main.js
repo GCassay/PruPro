@@ -51,34 +51,23 @@ module.exports.loop = function () {
     if(enConstruccion){
     // Para agilizar la creación de creeps, iniciar con un recolector
         if(recolectores.length < 1) {
-            var nuevoRecolector = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,MOVE], undefined, {role: 'recolector'});
+            if(constructores.length < 1){
+                var nuevoRecolector = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], 'reciclable', {role: 'recolector'});
+            }
+        }
+        else{
+            if(constructores.length < 3){
+                var nuevoConstructor = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'constructor'});
+            }
+            else{
+                reciclable.memory.role = 'constructor';
+            }
         }
     }
+    // Si el Contenedor ya está disponible
     else{
         
     }
-    
-    
-    // Si la cantidad actual es menor a 2, crear un nuevo recolector
-    if(recolectores.length < 2) {
-        var nuevoRecolector = Game.spawns['Central'].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'recolector'});
-    }
-	else{
-		// Respawn Creeps Constructores
-		
-		// Si la cantidad actual es menor a 5, crear un nuevo constructor
-		if(constructores.length < 5) {
-			var nuevoConstructor = Game.spawns['Central'].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'constructor'});
-		}
-		else{
-			// Respawn Creeps Recargadores
-			
-			// Si la cantidad actual es menor a 2, crear un nuevo recargador
-			if(recargadores.length < 2) {
-				var nuevoRecargador = Game.spawns['Central'].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'recargador'});
-			}
-		}
-	}
 
     // Diferenciar creeps por su rol y asignar comportamiento
     for(var nombre in Game.creeps) {
