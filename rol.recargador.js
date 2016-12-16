@@ -27,7 +27,7 @@ var rolRecargador = {
                 if(creep.transfer(contenedor[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) { 
                     creep.moveTo(contenedor[0]);
                 }
-			}
+            }
         }
         else { // Modo Recolección 
             var sources = creep.room.find(FIND_SOURCES); // Localizar fuente y obtener energía
