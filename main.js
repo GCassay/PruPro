@@ -53,7 +53,7 @@ module.exports.loop = function () {
     // Para agilizar la creación de creeps, iniciar con un recolector
         if(recolectores.length < 1) {
             if(constructores.length < 1){
-                var nuevoRecolector = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], 'Multitarea', {role: 'recolector'});
+                var nuevoRecolector = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], 'Multitareas' , {role: 'recolector'});
             }
             if(constructores.length == 3){
                 var nuevoExplorador = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'explorador'});
@@ -64,7 +64,7 @@ module.exports.loop = function () {
                 var nuevoConstructor = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'constructor'});
             }
             else{ // Reciclar el creep inicial de recolector a constructor
-                var creep = Game.creeps['Multitarea'];
+                var creep = Game.creeps['Multitareas'];
                 creep.memory.role = 'constructor';
             }
         }
