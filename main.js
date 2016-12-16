@@ -20,10 +20,10 @@ module.exports.loop = function () {
     if(Game.time == 2000){ 
         var final = parseInt(Date.now()); // Se obtiene el Epoch Time del instante en que se alcanzan los 2000 ticks
         var inicio = parseInt(Memory.temporizador.epoch); // Se recoge el Epoch Time de inicio
-        var tiempo = final - inicio;
+        var tiempo = final - inicio; // Se calculan los milisegundos transcurridos
 		// Se conoce el lapso de tiempo aproximado a través de los ticks definidos
 		// Se usa como medida de tiempo el minuto
-        var tiempo = Math.floor(tiempo / 60000); // Se convierte la diferencia de milisegundos a minutos
+        var tiempo = Math.floor(tiempo / 60000); // Se convierten milisegundos a minutos
         console.log('TICKS:2.000 / TIEMPO TRANSCURRIDO:'+ tiempo +' minutos'); 
         Game.rooms.sim.createFlag(0, 0, 'PruebaFinalizada', COLOR_WHITE); // Se genera un elemento flag en el mapa
     }
