@@ -7,7 +7,7 @@ var rolExplorador = require('rol.explorador'); // Buscar otras fuentes de energ�
 module.exports.loop = function () {
 
     // Control de tiempo y ticks de la prueba
-    if(Game.time == 1){
+    if(Game.time == 1){ // Se inicia el contador desde 1 ya que eventualmente la consola del simulador ignora y no muestra registro del tick 0
         console.log('INICIO DE LA PRUEBA');
         if(!Memory.temporizador){ // Se guarda el Epoch Time del instante en que se inicia el juego
             Memory.temporizador = {
@@ -52,7 +52,7 @@ module.exports.loop = function () {
             if(constructores.length < 1){
                 var primerRecolector = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], 'Multitarea', {role: 'recolector'});
             }
-            if(constructores.length == 3){
+            if(constructores.length == 3){ // Por la ubicación de la fuente, 3 es el número máximo de creeps que pueden acceder al mismo tiempo
                 var nuevoExplorador = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'explorador'});
             }
         }
@@ -67,7 +67,7 @@ module.exports.loop = function () {
         }
     }
     // Si el Contenedor ya está disponible, empezar otras tareas
-    else if(Game.time > 2){ // Ignorar los ticks iniciales mientras se procesa la orden de crear Contenedor
+    else if(Game.time > 2){ // La orden de generar el ConstructionSite se da en el tick 1
         // Reciclar los 3 constructores iniciales a recargadores
         for(var nombre in Game.creeps) {
             var minion = Game.creeps[nombre];
@@ -76,7 +76,6 @@ module.exports.loop = function () {
             }
         }
         if(recolectores.length < 1){ // Debe haber trabajando 1 recolector
-        console.log("?????");
             var nuevoRecolector = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'recolector'});
         }
         else if(recargadores.length < 5){ // Debe haber trabajando 5 recargadores
