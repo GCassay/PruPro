@@ -31,7 +31,7 @@ module.exports.loop = function () {
         var tiempo = Math.floor(tiempo / 60000); // Se convierten milisegundos a minutos
         console.log('TICKS TRANSCURRIDOS: 2.000 / TIEMPO TRANSCURRIDO:'+ tiempo +' minutos');
         // Se genera un elemento flag en el mapa indicando el final del contador
-        Game.rooms.sim.createFlag(0, 0, 'PruebaFinalizada', COLOR_WHITE); 
+        Game.rooms.sim.createFlag(25, 25, 'Tiempo Finalizado', COLOR_WHITE); 
     }
 
    // Limpiar memoria de creeps eliminados o que ya finalizaron su ciclo de vida
@@ -78,7 +78,10 @@ module.exports.loop = function () {
                 minion.memory.role = 'recargador';
             }
         }
-        if(recargadores.length < 5){ // Debe haber trabajando 5 recargadores
+        if(recolectores.length < 1){ // Debe haber trabajando 1 recolector
+            var nuevoRecolector = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'recolector'});
+        }
+        else if(recargadores.length < 5){ // Debe haber trabajando 5 recargadores
             var nuevoRecargador = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'recargador'});
         }
     }
