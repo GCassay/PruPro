@@ -18,7 +18,7 @@ module.exports.loop = function () {
             };
         }
         // Comenzar construcción de un Container
-        Game.rooms.sim.createConstructionSite(25, 22, STRUCTURE_CONTAINER); 
+        Game.rooms.sim.createConstructionSite(34, 23, STRUCTURE_CONTAINER); 
     }
     // Fin de la prueba (tick 2000)
     if(Game.time == 2000){
