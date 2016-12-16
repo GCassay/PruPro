@@ -6,11 +6,7 @@ var rolExplorador = require('rol.explorador'); // Obtener energía para construi
 
 module.exports.loop = function () {
 
-    console.log('TICK '+Game.time); // Contador
-
     // Control de tiempo y ticks de la prueba
-    //=====================================================
-    // Inicio de la prueba (tick 0)
     if(Game.time == 0){
         console.log('INICIO DE LA PRUEBA');
         if(!Memory.temporizador){ // Se guarda el Epoch Time del instante en que se inicia el juego
@@ -21,6 +17,7 @@ module.exports.loop = function () {
         // Comenzar construcción de un Container
         Game.rooms.sim.createConstructionSite(34, 23, STRUCTURE_CONTAINER); 
     }
+    console.log('TICK '+Game.time); // Contador
     // Fin de la prueba (tick 2000)
     if(Game.time == 2000){
         var final = parseInt(Date.now()); // Se obtiene el Epoch Time del instante en que se alcanzan los 2000 ticks
