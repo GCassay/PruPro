@@ -15,6 +15,7 @@ module.exports.loop = function () {
               epoch: String(Date.now())
             };
         }
+		Game.rooms.sim.createConstructionSite(25, 22, STRUCTURE_CONTAINER); // Comenzar construcción de un Container
     }   
 	// Fin de la prueba (tick 2000)
     if(Game.time == 2000){ 
