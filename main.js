@@ -26,7 +26,7 @@ module.exports.loop = function () {
         // Se conoce el lapso de tiempo aproximado a través de los ticks definidos
         // Se usa como medida de tiempo el minuto
         var tiempo = Math.floor(tiempo / 60000); // Se convierten milisegundos a minutos
-        console.log('TICKS TRANSCURRIDOS: 2.000 / TIEMPO TRANSCURRIDO:'+ tiempo +' minutos');
+        console.log('TICKS TRANSCURRIDOS: 2.000 / TIEMPO TRANSCURRIDO: '+ tiempo +' minutos');
         // Se genera un elemento flag en el mapa indicando el final del contador
         Game.rooms.sim.createFlag(25, 25, 'Tiempo Finalizado', COLOR_WHITE); 
     }
@@ -75,10 +75,10 @@ module.exports.loop = function () {
                 minion.memory.role = 'recargador';
             }
         }
-        if(recolectores.length < 1){ // Debe haber trabajando 1 recolector
+        if(recolectores.length < 1){ // Mantener 1 recolector trabajando
             var nuevoRecolector = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'recolector'});
         }
-        else if(recargadores.length < 5){ // Debe haber trabajando 5 recargadores
+        else if(recargadores.length < 3){ // Mantener 3 recargadores trabajando
             var nuevoRecargador = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'recargador'});
         }
     }
