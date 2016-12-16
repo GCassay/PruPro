@@ -5,7 +5,7 @@ var rolConstructor = require('rol.constructor'); // Obtener energía para constr
 
 module.exports.loop = function () {
 
-	console.log('TICK '+Game.time);
+    console.log('TICK '+Game.time); // Contador
 
     // Control de tiempo y ticks de la prueba
     //=====================================================
