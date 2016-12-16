@@ -52,7 +52,7 @@ module.exports.loop = function () {
     // Para agilizar la creación de creeps, iniciar con un recolector
         if(recolectores.length < 1) {
             if(constructores.length < 1){
-                var nuevoRecolector = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], 'reciclable', {role: 'recolector'});
+                var nuevoRecolector = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], 'Multitarea', {role: 'recolector'});
             }
         }
         else{
