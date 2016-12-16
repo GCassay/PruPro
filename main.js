@@ -47,11 +47,11 @@ module.exports.loop = function () {
     // Estado de la construcción del Contenedor
     var pos = Game.rooms.sim.getPositionAt(34,23);
     var enConstruccion = pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
-	// Si el Contenedor sigue en construcción
-	if(enConstruccion){
-        // Para agilizar la creación de creeps, iniciar con un recolector
-        if(recolectores.length < 2) {
-            var nuevoRecolector = Game.spawns['Central'].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'recolector'});
+    // Si el Contenedor sigue en construcción
+    if(enConstruccion){
+    // Para agilizar la creación de creeps, iniciar con un recolector
+        if(recolectores.length < 1) {
+            var nuevoRecolector = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,MOVE], undefined, {role: 'recolector'});
         }
     }
     else{
