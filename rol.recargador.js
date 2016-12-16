@@ -19,10 +19,12 @@ var rolRecargador = {
 					creep.moveTo(creep.room.controller);
 				}
 			}
-			else{ // Si el Controlador ya es level 2 priorizar la carga del Contenedor			    
-				// Localizar Contenedor
+            // Si el Controlador ya es level 2 priorizar la carga del Contenedor
+            else {		    
+                // Localizar Contenedor
                 var contenedor = creep.room.find(FIND_STRUCTURES,{filter: (i)=> {return i.structureType==STRUCTURE_CONTAINER}})
-                if(creep.transfer(contenedor[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) { // Desplazarse hasta él si no está cerca
+                // Desplazarse hasta él si no está cerca
+                if(creep.transfer(contenedor[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) { 
                     creep.moveTo(contenedor[0]);
                 }
 			}
