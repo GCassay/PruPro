@@ -2,6 +2,7 @@
 var rolRecolector = require('rol.recolector'); // Obtener energía para transferir al Spawn
 var rolRecargador = require('rol.recargador'); // Obtener energía para transferir a otras estructuras
 var rolConstructor = require('rol.constructor'); // Obtener energía para construir estructuras
+var rolExplorador = require('rol.explorador'); // Obtener energía para construir estructuras
 
 module.exports.loop = function () {
 
@@ -39,7 +40,7 @@ module.exports.loop = function () {
             delete Memory.creeps[nombre];
         }
     }
-    // Filtros Creeps por rol
+    // Filtros de Creeps por rol
     var recolectores = _.filter(Game.creeps, (creep) => creep.memory.role == 'recolector');
     var recargadores = _.filter(Game.creeps, (creep) => creep.memory.role == 'recargador');
     var constructores = _.filter(Game.creeps, (creep) => creep.memory.role == 'constructor');
@@ -54,19 +55,32 @@ module.exports.loop = function () {
             if(constructores.length < 1){
                 var nuevoRecolector = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], 'Multitarea', {role: 'recolector'});
             }
+            if(constructores.length == 3){
+                var nuevoExplorador = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'explorador'});
+            }
         }
         else{
-            if(constructores.length < 3){
+            if(constructores.length < 2){ // Generar 2 constructores
                 var nuevoConstructor = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'constructor'});
             }
-            else{
-                reciclable.memory.role = 'constructor';
+            else{ // Reciclar el creep inicial de recolector a constructor
+                var creep = Game.creeps['Multitarea'];
+                creep.memory.role = 'constructor';
             }
         }
     }
-    // Si el Contenedor ya está disponible
+    // Si el Contenedor ya está disponible, empezar otras tareas
     else{
-        
+        // Reciclar los 3 constructores iniciales a recargadores
+        for(var nombre in Game.creeps) {
+            var minion = Game.creeps[nombre];
+            if(minion.memory.role == 'constructor') {
+                minion.memory.role = 'recargador';
+            }
+        }
+        if(recargadores.length < 5){ // Debe haber trabajando 5 recargadores
+            var nuevoRecargador = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'recargador'});
+        }
     }
 
     // Diferenciar creeps por su rol y asignar comportamiento
@@ -80,6 +94,9 @@ module.exports.loop = function () {
         }
         if(minion.memory.role == 'constructor') {
             rolConstructor.run(minion);
+        }
+        if(minion.memory.role == 'explorador') {
+            rolExplorador.run(minion);
         }
     }
 }
