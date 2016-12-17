@@ -78,8 +78,8 @@ module.exports.loop = function () {
         
         // Si el Controlador aún no es level 2
         if(Game.spawns.Central.room.controller.level < 2){
-            if(recargadores.length < 2) { // Crear recargadores para transferir energía al Controlador
-                var Recargador = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'recargador'});
+            if(recolectores.length < 2) { // Crear recargadores para transferir energía al Controlador
+                var Recolector = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'recolector'});
             }
         }
         // Si el Controlador es level 2
@@ -165,10 +165,6 @@ module.exports.loop = function () {
         // Diferenciar creeps por su rol y asignar comportamiento
         for(var nombre in Game.creeps) {
             var minion = Game.creeps[nombre];
-            var numConstructores = constructores.length;
-            if(minion.memory.role == 'recolector') {
-                rolRecolector.run(minion,numConstructores);
-            }
             if(minion.memory.role == 'recargadorBot') {
                 rolRecargadorBot.run(minion);
             }
