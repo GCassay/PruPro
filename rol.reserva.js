@@ -2,7 +2,7 @@ var rolReserva = {
     
 	run: function(creep) {
 	    
-	    // Si el creep lleva menos energía de la que puede transportar, intenta obtener más
+        // Si el creep lleva menos energía de la que puede transportar, intenta obtener más
         if(creep.carry.energy < creep.carryCapacity) {
             
             var punto = Game.rooms.sim.getPositionAt(43,44);
