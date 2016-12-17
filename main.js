@@ -17,9 +17,9 @@ var vias = require('via.recursos');
 module.exports.loop = function () {
 
     // Control de tiempo y ticks de la prueba
-    if(Game.time == 1){ // Se inicia el contador desde 1 ya que eventualmente la consola del simulador ignora y no muestra registro del tick 0
+    if(Game.time == 1){ // Se inicia el contador desde 1 ya que eventualmente la consola del simulador no muestra el registro del tick 0
         console.log('INICIO DE LA PRUEBA');
-        if(!Memory.temporizador){ // Se guarda el Epoch Time del instante en que se inicia el juego
+        if(!Memory.temporizador){ // Se guarda el Epoch Time del instante en que se posiciona el primer Spawn
             Memory.temporizador = {
               epoch: String(Date.now())
             };
@@ -28,8 +28,6 @@ module.exports.loop = function () {
         Game.rooms.sim.createConstructionSite(34, 23, STRUCTURE_CONTAINER); 
     }
     
-    console.log('TICK '+Game.time); // Contador
-    
     // Fin de la prueba (tick 2000)
     if(Game.time == 2000){
         var final = parseInt(Date.now()); // Se obtiene el Epoch Time del instante en que se alcanzan los 2000 ticks
@@ -37,9 +35,10 @@ module.exports.loop = function () {
         var tiempo = final - inicio; // Se calculan los milisegundos transcurridos
         // Se usa como medida de tiempo el minuto
         var tiempo = Math.floor(tiempo / 60000); // Se convierten milisegundos a minutos
-        console.log('TICKS TRANSCURRIDOS: 2.000 / TIEMPO TRANSCURRIDO: '+ tiempo +' minutos');
+        console.log('TIEMPO TRANSCURRIDO: '+ tiempo +' minutos');
         // Se genera un elemento flag en el mapa indicando el final del contador
         Game.rooms.sim.createFlag(25, 25, 'Tiempo Finalizado', COLOR_WHITE); 
+        Game.creeps.suicide();
     }
 
    // Limpiar memoria de creeps eliminados o que ya finalizaron su ciclo de vida
@@ -48,6 +47,9 @@ module.exports.loop = function () {
             delete Memory.creeps[nombre];
         }
     }
+    
+    console.log('TICK '+Game.time); // Contador
+    
     // Detener actividad al alcanzar los 2000 ticks
     if(Game.time < 2000){
         // Filtros de Creeps por rol
@@ -75,8 +77,8 @@ module.exports.loop = function () {
                     var nuevoConstructor = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'constructor'});
                 }
                 else{ // Reciclar el creep inicial de recolector a constructor
-                   var creep = Game.creeps['Multitarea'];
-                   creep.memory.role = 'constructor';
+                   var minion = Game.creeps['Multitarea'];
+                   minion.memory.role = 'constructor';
                 }
             }
         }
