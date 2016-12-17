@@ -4,11 +4,11 @@ var rolRecargador = {
 
         if(creep.memory.transferir && creep.carry.energy == 0) { // Creep en Modo Transferir / Sin energía
             creep.memory.transferir = false; // Pasar a Modo Recolección para obtener más energía
-            //creep.say('Recolectar');
+            creep.say('Recolectar');
         }
         if(!creep.memory.transferir && creep.carry.energy == creep.carryCapacity) { // Creep en Modo Recolección / Full energía
             creep.memory.transferir = true; // Pasar a Modo Transferir para llevar energía a un contenedor
-            //creep.say('Transferir');
+            creep.say('Transferir');
         }
         if(creep.memory.transferir) { // Creep en Modo Transferir / Con energía
 			// Dejar de llevar energía al Controlador cuando alcance el level 2
