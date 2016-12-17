@@ -48,10 +48,11 @@ module.exports.loop = function () {
         }
     }
     
-    console.log('TICK '+Game.time); // Contador
-    
     // Detener actividad al alcanzar los 2000 ticks
     if(Game.time < 2000){
+    
+        console.log('TICK '+Game.time); // Contador
+        
         // Filtros de Creeps por rol
         var recolectores = _.filter(Game.creeps, (creep) => creep.memory.role == 'recolector');
         var recargadores = _.filter(Game.creeps, (creep) => creep.memory.role == 'recargador');
