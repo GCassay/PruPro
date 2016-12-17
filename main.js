@@ -62,45 +62,59 @@ module.exports.loop = function () {
         var recargadores = _.filter(Game.creeps, (creep) => creep.memory.role == 'recargador');
         var constructores = _.filter(Game.creeps, (creep) => creep.memory.role == 'constructor');
         var reservas = _.filter(Game.creeps, (creep) => creep.memory.role == 'reserva');
+        var enObras = Game.spawns.Central.room.find(FIND_CONSTRUCTION_SITES);
         
-        // Estado de la construcción del Contenedor
-        var punto = Game.rooms.sim.getPositionAt(34,23);
-        var enConstruccion = punto.findClosestByRange(FIND_CONSTRUCTION_SITES);
-        
-        // Si el Contenedor sigue en construcción
-        if(enConstruccion){
-        // Para agilizar la creación de creeps, iniciar con un recolector
-            if(recolectores.length < 1) {
-                if(constructores.length < 1){
-                    var primerRecolector = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], 'Multitarea', {role: 'recolector'});
+        // Número de estructuras(Contenedores) en construcción
+        switch(enObras.length){
+            
+            case 2: // Comenzar a construir el primer Contenedor
+            
+                // Para agilizar la creación de creeps, iniciar con un recolector
+                if(recolectores.length < 1) {
+                    if(constructores.length < 1){
+                        var primerRecolector = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], 'Multitarea', {role: 'recolector'});
+                    }
+                    if(constructores.length == 3){ // Por la ubicación de la fuente, 3 es el número máximo de creeps que pueden acceder al mismo tiempo
+                        // Generar reservas para buscar energía en otra fuente
+                        var nuevoReserva = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'reserva'});
+                    }
                 }
-                if(constructores.length == 3){ // Por la ubicación de la fuente, 3 es el número máximo de creeps que pueden acceder al mismo tiempo
-                    // Generar reservas para buscar energía en otra fuente
-                    var nuevoReserva = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'reserva'});
+                else{
+                    if(constructores.length < 2){ // Generar 2 constructores
+                        var nuevoConstructor = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'constructor'});
+                    }
+                    else{ // Reciclar el creep inicial de recolector a constructor
+                       var minion = Game.creeps['Multitarea'];
+                       minion.memory.role = 'constructor';
+                    }
                 }
-            }
-            else{
-                if(constructores.length < 2){ // Generar 2 constructores
-                    var nuevoConstructor = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'constructor'});
+                break;
+                
+            case 1: // Comenzar a construir el segundo Contenedor, llenar el primero y subir de nivel el Controlador
+            
+                if(Game.time > 2){ // Asegurar que ya se generaron los ConstructionSite
+                
+                    // Reciclar los 3 constructores iniciales a recargadores
+                    for(var nombre in Game.creeps) {
+                        var minion = Game.creeps[nombre];
+                        if(minion.memory.role == 'constructor') {
+                            minion.memory.role = 'recargador';
+                        }
+                    }
+                    if(recargadores.length < 3){ // Mantener 3 recargadores trabajando
+                        var contador = 0;
+                        for(var nombre in Game.creeps) { 
+                            contador++;
+                            if(contador == 1){
+                                var minion = Game.creeps[nombre];
+                                if(minion.memory.role == 'reserva') {
+                                    minion.memory.role = 'recargador'; // Reciclar reservas a recargadores
+                                }
+                            }
+                        }                
+                    }
                 }
-                else{ // Reciclar el creep inicial de recolector a constructor
-                   var minion = Game.creeps['Multitarea'];
-                   minion.memory.role = 'constructor';
-                }
-            }
-        }
-        // Si el Contenedor ya está disponible, empezar otras tareas
-        else if(Game.time > 2){ // La orden de generar el ConstructionSite se da en el tick 1
-            // Reciclar los 3 constructores iniciales a recargadores
-            for(var nombre in Game.creeps) {
-                var minion = Game.creeps[nombre];
-                if(minion.memory.role == 'constructor') {
-                    minion.memory.role = 'recargador';
-                }
-            }
-            if(recargadores.length < 3){ // Mantener 3 recargadores trabajando
-                var nuevoRecargador = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'recargador'});
-            }
+                break;
         }
     
         // Diferenciar creeps por su rol y asignar comportamiento
