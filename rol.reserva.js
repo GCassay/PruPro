@@ -1,6 +1,6 @@
 var rolReserva = {
     
-	run: function(creep) {
+    run: function(creep) {
 	    
         // Si el creep lleva menos energía de la que puede transportar, intenta obtener más
         if(creep.carry.energy < creep.carryCapacity) {
