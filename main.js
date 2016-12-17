@@ -38,7 +38,11 @@ module.exports.loop = function () {
         console.log('TIEMPO TRANSCURRIDO: '+ tiempo +' minutos');
         // Se genera un elemento flag en el mapa indicando el final del contador
         Game.rooms.sim.createFlag(25, 25, 'Tiempo Finalizado', COLOR_WHITE); 
-        Game.creeps.suicide();
+        // Eliminar creeps
+        for(var nombre in Game.creeps) {
+            var minion = Game.creeps[nombre];
+            minion.suicide();
+        }
     }
 
    // Limpiar memoria de creeps eliminados o que ya finalizaron su ciclo de vida
@@ -51,7 +55,7 @@ module.exports.loop = function () {
     // Detener actividad al alcanzar los 2000 ticks
     if(Game.time < 2000){
     
-        console.log('TICK '+Game.time); // Contador
+        console.log(Game.time); // Contador
         
         // Filtros de Creeps por rol
         var recolectores = _.filter(Game.creeps, (creep) => creep.memory.role == 'recolector');
