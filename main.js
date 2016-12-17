@@ -11,8 +11,7 @@
 var rolRecolector = require('rol.recolector'); // Obtener energía para transferir al Spawn
 var rolRecargador = require('rol.recargador'); // Obtener energía para transferir a otras estructuras
 var rolConstructor = require('rol.constructor'); // Obtener energía para construir estructuras
-var rolExplorador = require('rol.explorador'); // Buscar otras fuentes de energía y operar con ellas
-var vias = require('via.recursos');
+var rolReserva = require('rol.reserva'); // Creep auxiliar para buscar energía a más distancia y recargar estructuras
 
 module.exports.loop = function () {
 
@@ -26,6 +25,7 @@ module.exports.loop = function () {
         }
         // Comenzar construcción de un Container
         Game.rooms.sim.createConstructionSite(34, 23, STRUCTURE_CONTAINER); 
+        Game.rooms.sim.createConstructionSite(40, 44, STRUCTURE_CONTAINER); 
     }
     
     // Fin de la prueba (tick 2000)
@@ -61,10 +61,11 @@ module.exports.loop = function () {
         var recolectores = _.filter(Game.creeps, (creep) => creep.memory.role == 'recolector');
         var recargadores = _.filter(Game.creeps, (creep) => creep.memory.role == 'recargador');
         var constructores = _.filter(Game.creeps, (creep) => creep.memory.role == 'constructor');
+        var reservas = _.filter(Game.creeps, (creep) => creep.memory.role == 'reserva');
         
         // Estado de la construcción del Contenedor
-        var pos = Game.rooms.sim.getPositionAt(34,23);
-        var enConstruccion = pos.findClosestByRange(FIND_CONSTRUCTION_SITES);
+        var punto = Game.rooms.sim.getPositionAt(34,23);
+        var enConstruccion = punto.findClosestByRange(FIND_CONSTRUCTION_SITES);
         
         // Si el Contenedor sigue en construcción
         if(enConstruccion){
@@ -74,7 +75,8 @@ module.exports.loop = function () {
                     var primerRecolector = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], 'Multitarea', {role: 'recolector'});
                 }
                 if(constructores.length == 3){ // Por la ubicación de la fuente, 3 es el número máximo de creeps que pueden acceder al mismo tiempo
-                    var nuevoExplorador = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'explorador'});
+                    // Generar reservas para buscar energía en otra fuente
+                    var nuevoReserva = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'reserva'});
                 }
             }
             else{
@@ -96,10 +98,7 @@ module.exports.loop = function () {
                     minion.memory.role = 'recargador';
                 }
             }
-            if(recolectores.length < 1){ // Mantener 1 recolector trabajando
-                var nuevoRecolector = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'recolector'});
-            }
-            else if(recargadores.length < 3){ // Mantener 3 recargadores trabajando
+            if(recargadores.length < 3){ // Mantener 3 recargadores trabajando
                 var nuevoRecargador = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'recargador'});
             }
         }
@@ -116,8 +115,8 @@ module.exports.loop = function () {
             if(minion.memory.role == 'constructor') {
                 rolConstructor.run(minion);
             }
-            if(minion.memory.role == 'explorador') {
-                rolExplorador.run(minion);
+            if(minion.memory.role == 'reserva') {
+                rolReserva.run(minion);
             }
         }
     }
