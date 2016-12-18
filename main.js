@@ -115,16 +115,16 @@ module.exports.loop = function () {
                         if(constructoresMid.length < 2) { // Mantener activos 3 constructores centrales
                             var cm = Game.spawns['Central'].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'constructorMid'});
                         }
-                        else if(constructoresBot.length < 2) { // Mantener activos 3 constructores inferiores
+                        else if(constructoresBot.length < 1) { // Mantener activos 3 constructores inferiores
                             var cm = Game.spawns['Central'].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'constructorBot'});
                         }
                         break;
                     
                     case 2: 
                         // Extensiones en construcción
-                        var extensionSite = Game.spawns.Central.room.find(FIND_CONSTRUCTION_SITES, { filter: (f) => f.structureType==STRUCTURE_EXTENSION });
+                        // var extensionSite = Game.spawns.Central.room.find(FIND_CONSTRUCTION_SITES, { filter: (f) => f.structureType==STRUCTURE_EXTENSION });
                         
-                        if(extensionSite.length == 0 && recargadoresTop.length < 1){ // Transferir energía a la Extensión
+                        if(recargadoresTop.length < 1){ // Transferir energía a la Extensión
                             var ct = Game.spawns['Central'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'recargadorTop'});
                         }
                         else if(constructoresMid.length < 3) { // Mantener activos 3 constructores centrales
