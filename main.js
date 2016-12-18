@@ -72,7 +72,6 @@ module.exports.loop = function () {
         var recolectores = _.filter(Game.creeps, (creep) => creep.memory.role == 'recolector');
         var constructoresMid = _.filter(Game.creeps, (creep) => creep.memory.role == 'constructorMid');
         var constructoresBot = _.filter(Game.creeps, (creep) => creep.memory.role == 'constructorBot');
-        var constructoresTop = _.filter(Game.creeps, (creep) => creep.memory.role == 'constructorTop');
         var recargadoresMid = _.filter(Game.creeps, (creep) => creep.memory.role == 'recargadorMid');
         var recargadoresBot = _.filter(Game.creeps, (creep) => creep.memory.role == 'recargadorBot');
         var recargadoresTop = _.filter(Game.creeps, (creep) => creep.memory.role == 'recargadorTop');
@@ -122,14 +121,14 @@ module.exports.loop = function () {
                         break;
                     
                     case 2: // Extensión finalizada
-                        if(extensionSite.length == 0 && recargadoresTop.length < 2){ // Transferir energía a la Extensión
-                            var ct = Game.spawns['Central'].createCreep([WORK,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'recargadorTop'});
+                        if(extensionSite.length == 0 && recargadoresTop.length < 1){ // Transferir energía a la Extensión
+                            var ct = Game.spawns['Central'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'recargadorTop'});
                         }
                         else if(constructoresMid.length < 3) { // Mantener activos 3 constructores centrales
                             var cm = Game.spawns['Central'].createCreep([WORK,WORK,CARRY,CARRY,MOVE], undefined, {role: 'constructorMid'});
                         }
                         else{
-                            if(constructoresBot.length < 1) { // Mantener activos 3 constructores inferiores
+                            if(constructoresBot.length < 3) { // Mantener activos 3 constructores inferiores
                                 var ct = Game.spawns['Central'].createCreep([WORK,WORK,CARRY,CARRY,MOVE], undefined, {role: 'constructorBot'});
                             }
                         }
@@ -138,25 +137,25 @@ module.exports.loop = function () {
                     case 1: case 0: // Al terminar de construir estructuras, transferirles energía
                         
                         var c1 = Game.rooms.sim.getPositionAt(parseInt(Memory.datos.contenedorX),parseInt(Memory.datos.contenedorY));
-                        var contenedor1Construido = c1.findClosestByRange(FIND_CONSTRUCTION_SITES);
+                        var contenedor1Construccion = c1.findClosestByRange(FIND_CONSTRUCTION_SITES);
                         
-                        if(contenedor1Construido) { // Si ya se terminó de construir el contenedor 2
-                            for(var nombre in Game.creeps) { // Convertir constructores inferiores en recargadores inferiores
-                                    var minion = Game.creeps[nombre];
-                                if(minion.memory.role = 'constructorBot'){
-                                    minion.memory.role = 'recargadorBot';
+                        if(!contenedor1Construccion) { // Si ya se terminó de construir el contenedor 1
+                            for(var nombre in Game.creeps) {  // Convertir constructores centrales en recargadores centrales
+                                var minion = Game.creeps[nombre];
+                                if(minion.memory.role = 'constructorMid'){
+                                          minion.memory.role = 'recargadorMid';
                                 }
                             }
                         }
                         
                         var c2 = Game.rooms.sim.getPositionAt(parseInt(Memory.datos.contenedor2X),parseInt(Memory.datos.contenedor2Y));
-                        var contenedor2Construido = c2.findClosestByRange(FIND_CONSTRUCTION_SITES);
+                        var contenedor2Construccion = c2.findClosestByRange(FIND_CONSTRUCTION_SITES);
                         
-                        if(contenedor2Construido){ // Si ya se terminó de construir el contenedor 1
-                            for(var nombre in Game.creeps) {  // Convertir constructores centrales en recargadores centrales
-                                var minion = Game.creeps[nombre];
-                                if(minion.memory.role = 'constructorMid'){
-                                          minion.memory.role = 'recargadorMid';
+                        if(!contenedor2Construccion){ // Si ya se terminó de construir el contenedor 2
+                            for(var nombre in Game.creeps) { // Convertir constructores inferiores en recargadores inferiores
+                                    var minion = Game.creeps[nombre];
+                                if(minion.memory.role = 'constructorBot'){
+                                    minion.memory.role = 'recargadorBot';
                                 }
                             }
                         }
@@ -168,7 +167,7 @@ module.exports.loop = function () {
                             var rb = Game.spawns['Central'].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'recargadorBot'});
                         }
                         if(recargadoresTop.length < 2){ // Transferir energía a la Extensión
-                            var rt = Game.spawns['Central'].createCreep([WORK,CARRY,MOVE,MOVE,MOVE], undefined, {role: 'recargadorTop'});
+                            var rt = Game.spawns['Central'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'recargadorTop'});
                         }
                         break;
                 }
