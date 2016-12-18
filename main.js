@@ -74,6 +74,7 @@ module.exports.loop = function () {
         var recargadoresMid = _.filter(Game.creeps, (creep) => creep.memory.role == 'recargadorMid');
         var recargadoresBot = _.filter(Game.creeps, (creep) => creep.memory.role == 'recargadorBot');
         var recargadoresTop = _.filter(Game.creeps, (creep) => creep.memory.role == 'recargadorTop');
+        // Estructuras en construcción
         var enObras = Game.spawns.Central.room.find(FIND_CONSTRUCTION_SITES);
         
         // Si el Controlador aún no es level 2
@@ -165,6 +166,9 @@ module.exports.loop = function () {
         // Diferenciar creeps por su rol y asignar comportamiento
         for(var nombre in Game.creeps) {
             var minion = Game.creeps[nombre];
+            if(minion.memory.role == 'recolector') {
+                rolRecolector.run(minion);
+            }
             if(minion.memory.role == 'recargadorBot') {
                 rolRecargadorBot.run(minion);
             }
