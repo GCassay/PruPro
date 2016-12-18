@@ -112,10 +112,10 @@ module.exports.loop = function () {
                 switch(enObras.length){ // Cantidad de estructuras en construcción
                 
                     case 3:
-                        if(constructoresMid.length < 3) { // Mantener activos 3 constructores centrales
+                        if(constructoresMid.length < 2) { // Mantener activos 3 constructores centrales
                             var cm = Game.spawns['Central'].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'constructorMid'});
                         }
-                        else if(constructoresBot.length < 3) { // Mantener activos 3 constructores inferiores
+                        else if(constructoresBot.length < 2) { // Mantener activos 3 constructores inferiores
                             var cm = Game.spawns['Central'].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'constructorBot'});
                         }
                         break;
@@ -163,12 +163,21 @@ module.exports.loop = function () {
                         break;
                         
                     case 0:
-                        
-                        if(recargadoresMid.length < 3){ // Mantener activos 3 recargadores centrales
-                            var rm = Game.spawns['Central'].createCreep([WORK,WORK,CARRY,CARRY,MOVE], undefined, {role: 'recargadorMid'});
+
+                        if(constructoresBot.length > 0){
+                            for(var nombre in Game.creeps) {  // Convertir constructores inferiores en recargadores inferiores
+                                var minion = Game.creeps[nombre];
+                                if(minion.memory.role == 'constructorBot'){
+                                    minion.memory.role = 'recargadorBot';
+                                }
+                            }
                         }
-                        else if(recargadoresBot.length < 3){ // Mantener activos 3 recargadores inferiores
-                            var rb = Game.spawns['Central'].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'recargadorBot'});
+                        
+                        if(recargadoresBot.length < 3){ // Mantener activos 3 recargadores inferiores
+                            var rb = Game.spawns['Central'].createCreep([WORK,WORK,CARRY,CARRY,MOVE], undefined, {role: 'recargadorBot'});
+                        }
+                        else if(recargadoresMid.length < 3){ // Mantener activos 3 recargadores centrales
+                            var rm = Game.spawns['Central'].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'recargadorMid'});
                         }
                         if(recargadoresTop.length < 1){ // Transferir energía a la Extensión
                             var rt = Game.spawns['Central'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'recargadorTop'});
