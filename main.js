@@ -80,7 +80,7 @@ module.exports.loop = function () {
         // Si el Controlador aún no es level 2
         if(Game.spawns.Central.room.controller.level < 2){
             if(recolectores.length < 2) { // Crear recargadores para transferir energía al Controlador
-                var Recolector = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'recolector'});
+                var Recolector = Game.spawns['Central'].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'recolector'});
             }
         }
         // Si el Controlador es level 2
@@ -109,7 +109,7 @@ module.exports.loop = function () {
                 
                     case 2: // Si ambas estructuras están en construcción, comenzar por la Extensión
                         if(constructoresMid.length < 3) { // Mantener activos 3 constructores centrales
-                            var cm = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'constructorMid'});
+                            var cm = Game.spawns['Central'].createCreep([WORK,WORK,CARRY,MOVE], undefined, {role: 'constructorMid'});
                         }
                         else if(constructoresBot.length < 3) { // Mantener activos 3 constructores inferiores
                             var cb = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'constructorBot'});
@@ -119,15 +119,15 @@ module.exports.loop = function () {
                         }
                         break;
                     
-                    case 1: // Al finalizar la extensión, trabajar en el Contenedor
+                    case 1: // Al finalizar la Extensión, trabajar en el Contenedor
                         if(constructoresMid.length < 3) { // Mantener activos 3 constructores centrales
-                            var cm = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'constructorMid'});
+                            var cm = Game.spawns['Central'].createCreep([WORK,WORK,CARRY,CARRY,MOVE], undefined, {role: 'constructorMid'});
                         }
                         else if(constructoresBot.length < 3) { // Mantener activos 3 constructores inferiores
-                            var cb = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'constructorBot'});
+                            var cb = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'constructorBot'});
                         }
                         else if(constructoresTop.length < 1) { // Mantener activo 1 constructor superior
-                            var ct = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], 'Auxiliar', {role: 'constructorTop'});
+                            var ct = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,CARRY,MOVE], 'Auxiliar', {role: 'constructorTop'});
                         }
                         break;
                         
@@ -149,13 +149,13 @@ module.exports.loop = function () {
                         minion.memory.role = 'recargadorTop'; // Convertir constructor superior en recargador superior
                         
                         if(recargadoresMid.length < 3) { // Mantener activos 3 constructores inferiores
-                            var rm = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'recargadorMid'});
+                            var rm = Game.spawns['Central'].createCreep([WORK,WORK,CARRY,CARRY,MOVE], undefined, {role: 'recargadorMid'});
                         }
                         else if(recargadoresBot.length < 3) { // Mantener activos 3 constructores inferiores
-                            var rb = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'recargadorBot'});
+                            var rb = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'recargadorBot'});
                         }
                         else if(recargadoresTop.length < 1) { // Mantener activo 1 constructor superior
-                            var rp = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'recargadorTop'});
+                            var rp = Game.spawns['Central'].createCreep([WORK,CARRY,CARRY,CARRY,CARRY,MOVE], undefined, {role: 'recargadorTop'});
                         }
                         break;
                 }
