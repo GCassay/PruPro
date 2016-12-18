@@ -142,14 +142,15 @@ module.exports.loop = function () {
                        // var c = Game.rooms.sim.getPositionAt(parseInt(Memory.datos.contenedorX),parseInt(Memory.datos.contenedorY));
                         //var contenedor1Construccion = c.findInRange(FIND_STRUCTURES, 0);
 
-                        if(constructoresBot.length > 0){
-                            for(var nombre in Game.creeps) {  // Convertir constructores inferiores en recargadores inferiores
+                        if(constructoresMid.length > 0){
+                            for(var nombre in Game.creeps) {  // Convertir constructores centrales en recargadores centrales
                                 var minion = Game.creeps[nombre];
-                                if(minion.memory.role == 'constructorBot'){
-                                    minion.memory.role = 'recargadorBot';
+                                if(minion.memory.role == 'constructorMid'){
+                                    minion.memory.role = 'recargadorMid';
                                 }
                             }
                         }
+                        
                         if(recargadoresBot.length < 3){ // Mantener activos 3 recargador inferiores
                             var rb = Game.spawns['Central'].createCreep([WORK,WORK,CARRY,CARRY,MOVE], undefined, {role: 'recargadorBot'});
                         }
@@ -163,11 +164,11 @@ module.exports.loop = function () {
                         
                     case 0:
 
-                        if(constructoresMid.length > 0){
-                            for(var nombre in Game.creeps) {  // Convertir constructores centrales en recargadores centrales
+                        if(constructoresBot.length > 0){
+                            for(var nombre in Game.creeps) {  // Convertir constructores inferiores en recargadores inferiores
                                 var minion = Game.creeps[nombre];
-                                if(minion.memory.role == 'constructorMid'){
-                                    minion.memory.role = 'recargadorMid';
+                                if(minion.memory.role == 'constructorBot'){
+                                    minion.memory.role = 'recargadorBot';
                                 }
                             }
                         }
